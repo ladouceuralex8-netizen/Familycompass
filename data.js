@@ -16,9 +16,10 @@ const COMMUNITIES=[
 ];
 
 const OPPORTUNITIES=[
-{cat:"youth",icon:"⚾",title:"Youth Baseball",items:[["Beaufort County youth sports","View programs"],["Local recreation leagues","View registration"],["Baseball clinics","View clinics"]]},
+{cat:"baseball",icon:"⚾",title:"Youth Baseball",items:[["Beaufort County youth sports","View programs"],["Local recreation leagues","View registration"],["Baseball clinics","View clinics"]]},
 {cat:"childcare",icon:"👶",title:"Childcare",items:[["SC DSS childcare search","View providers"],["Local daycare shortlist","Schedule tours"],["After-school care","View options"]]},
 {cat:"jobs",icon:"💼",title:"Jobs",items:[["Beaufort Memorial careers","View jobs"],["Military spouse employment","View resources"],["Remote work options","View remote jobs"]]},
 {cat:"community",icon:"🤝",title:"Community Groups",items:[["Military family groups","View groups"],["Parent events","View events"],["Volunteer opportunities","View options"]]},
-{cat:"connectivity",icon:"📶",title:"Connectivity",items:[["FCC broadband map","Check address"],["Cell carrier comparison","Compare carriers"]]}
+{cat:"connectivity",icon:"📶",title:"Connectivity",items:[["FCC broadband map","Check address"],["Cell carrier comparison","Compare carriers"]]},
+{cat:"recreation",icon:"🎣",title:"Family Recreation",items:[["Family parks and trails","View places"],["Fishing access points","View map"],["Seasonal family events","View calendar"]]}
 ];

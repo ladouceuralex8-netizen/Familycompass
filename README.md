@@ -1,3 +1,3 @@
-Family Compass v11 Stable App
+Family Compass v12 Routing Fix
 
-Upload these files to your GitHub repo root. This version focuses on working app behavior first, with Beaufort real-data drilldowns and opportunity search.
+Fixes selected community and opportunity category routing. Beaufort selection now persists. Baseball now opens baseball results.
