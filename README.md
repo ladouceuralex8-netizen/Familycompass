@@ -1,3 +1,1 @@
-Family Compass v12 Routing Fix
-
-Fixes selected community and opportunity category routing. Beaufort selection now persists. Baseball now opens baseball results.
+Emergency single-file Family Compass build. Upload only index.html to GitHub root to fix white screen caused by missing JS/CSS files.

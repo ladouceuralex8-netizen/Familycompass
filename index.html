@@ -1,14 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Family Compass</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Family Compass</title>
+<style>
+:root{--navy:#10243E;--blue:#1B4D7A;--green:#2F8F6B;--gray:#667085;--gray2:#98A2B3;--bg:#F7F9FC;--card:#fff;--border:#E4E7EC;--soft:#E8F6EF;--warn:#B54708;--warnbg:#FFF7ED}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(#F8FBFF,#EEF5FA);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--navy)}
+button,input{font:inherit}.app{max-width:460px;min-height:100vh;margin:0 auto;background:var(--bg);padding:24px 22px 36px;box-shadow:0 0 48px rgba(16,36,62,.14)}
+h1{font-size:36px;line-height:1.03;letter-spacing:-1px;margin:12px 0 8px}h2{font-size:25px;margin:10px 0}h3{font-size:18px;margin:0 0 8px}p{color:var(--gray);line-height:1.45;font-size:15.5px}.center{text-align:center}.logo{font-size:46px;margin-top:8px}
+.card{background:rgba(255,255,255,.94);border:1px solid var(--border);border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 12px 30px rgba(16,36,62,.08)}
+.hero{background:radial-gradient(circle at 20% 10%,rgba(47,143,107,.18),transparent 34%),linear-gradient(#fff,#F7FBFF);border-radius:34px}
+.button,.cardbtn{display:block;width:100%;border:0;border-radius:18px;background:var(--navy);color:#fff;padding:16px;font-weight:900;margin-top:14px;text-align:center;text-decoration:none;cursor:pointer}
+.button.secondary{background:#fff;color:var(--navy);border:1px solid var(--border)}.button.green{background:var(--green)}.button.small{padding:11px 14px;font-size:14px;border-radius:14px}
+.cardbtn{background:#fff;color:var(--navy);border:1px solid var(--border);text-align:left;box-shadow:0 10px 24px rgba(16,36,62,.06)}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.back,.linkbtn{background:none;border:0;color:var(--blue);font-weight:900;padding:0;cursor:pointer}.badge{display:inline-block;background:var(--soft);color:var(--green);border-radius:999px;padding:8px 12px;font-weight:900;font-size:14px}
+.ring{width:184px;height:184px;margin:20px auto 10px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(closest-side,#fff 70%,transparent 71%),conic-gradient(var(--green) calc(var(--score)*1%),#E6ECF2 0);box-shadow:0 16px 36px rgba(16,36,62,.10)}.score{font-size:44px;font-weight:950}.smalltext{font-size:13px;color:var(--gray2)}
+.input{width:100%;border:1px solid var(--border);border-radius:18px;background:#fff;padding:16px;margin:10px 0;font-size:16px}.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.chip{border:1px solid var(--border);background:#fff;color:var(--navy);padding:10px 13px;border-radius:999px;font-weight:800}.chip.active{background:var(--soft);color:var(--green);border-color:#9ED7BF}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #EEF1F4}.row:last-child{border-bottom:0}.status{font-weight:900;color:var(--green);text-align:right}.warn{background:var(--warnbg);color:var(--warn);padding:12px 13px;border-radius:15px;margin:8px 0;font-size:14px;line-height:1.35}
+.source{font-size:12px;word-break:break-word;color:var(--gray)}.why{font-size:13px;color:var(--blue);font-weight:800}
+</style>
 </head>
 <body>
-  <main id="app" class="app"></main>
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+<main id="app" class="app">
+  <section class="card center">
+    <div class="logo">🧭</div>
+    <h1>Loading Family Compass...</h1>
+  </section>
+</main>
+
+<script>
+const COMMUNITIES=[
+{id:"beaufort-sc",name:"Beaufort, SC",type:"Coastal / military-friendly",score:73,label:"🌱 Good Fit",summary:"Beaufort is a strong fit for families who value coastal living, military community, outdoor recreation, and local identity. The tradeoffs are job-market depth, childcare planning, weather/storm risk, and neighborhood-specific safety research.",categories:[
+{key:"safety",name:"🛡️ Safety & Stability",score:72,quick:"Generally workable, but exact neighborhood research matters.",stats:[["City crime source","Beaufort Police annual reports"],["County crime source","BCSO NIBRS summaries"],["Neighborhood-level parsing","Not connected yet"]],notes:["Use city police annual reports for city-level trends.","Use Beaufort County Sheriff reports for county/unincorporated areas.","Next step: parse incident counts and recent calls into comparable neighborhood data."],sources:["https://www.cityofbeaufort.org/592/Annual-Reports","https://bcso.net/public-information/data-and-statistics/"]},
+{key:"schools",name:"🏫 Schools",score:78,quick:"Good and improving, but school zone matters.",stats:[["Good/Excellent schools","53%"],["Prior year","44%"],["Graduation rate","88.6%"],["College/career ready","82.8%"]],notes:["BCSD reported improvement in 2024 school report cards.","No BCSD school was rated Unsatisfactory for the first time since 2018."],sources:["https://www.beaufortschools.net/about-us/whats-new-default-board/~board/whats-new/post/sc-department-of-education-releases-2024-report-cards-for-schools-districts","https://screportcards.com/"]},
+{key:"financial",name:"💰 Financial Wellbeing",score:64,quick:"Can work well, but housing and insurance/tax details need careful review.",stats:[["Median household income","$86,573"],["Median home value","$455,600"],["Median gross rent","$1,653"],["Owner cost with mortgage","$2,030"]],notes:["Income is strong, but housing costs are high.","Storm/insurance/tax details should be researched before buying."],sources:["https://www.census.gov/quickfacts/fact/table/beaufortcountysouthcarolina/SBO040223","https://www.cityofbeaufort.org/m/faq?cat=39#question-200"]},
+{key:"jobs",name:"💼 Job Market",score:71,quick:"Good for some fields, limited for others.",stats:[["County employment, 2023","59,121"],["Employment growth","2.6%"],["Mean commute","23.6 minutes"]],notes:["Stronger around military, healthcare, education, tourism, hospitality, retail, and remote/regional work."],sources:["https://installations.militaryonesource.mil/military-installation/mcrd-parris-island/military-and-family-support-center/employment","https://www.bmhsc.org/careers"]},
+{key:"childcare",name:"👶 Childcare",score:64,quick:"Plan early and verify openings directly.",stats:[["Data status","Provider search not connected yet"],["Next source","SC DSS childcare licensing"],["Family action","Call providers early"]],notes:["The live app should show license status, ages served, pricing, openings, waitlist, reviews, and contact buttons."],sources:["https://dss.sc.gov/child-care/"]},
+{key:"community",name:"🤝 Community",score:82,quick:"Strong community identity, especially for military and outdoor-oriented families.",stats:[["Veterans","16,866"],["Population growth","9.3%"],["Military fit","MCRD Parris Island + MCAS Beaufort region"]],notes:["Strong veteran/military presence and outdoor community culture."],sources:["https://www.census.gov/quickfacts/fact/table/beaufortcountysouthcarolina/SBO040223","https://www.beaufortsc.org/"]},
+{key:"quality",name:"😊 Quality of Life",score:87,quick:"Excellent lifestyle fit if you like coastal/outdoor living.",stats:[["Mean commute","23.6 minutes"],["Strengths","Water, parks, history, events"],["Weather reality","Heat, humidity, storms"]],notes:["Families should weigh outdoor benefits against heat, storms, and insurance considerations."],sources:["https://discoversouthcarolina.com/beaufort","https://www.beaufortsc.org/"]},
+{key:"connectivity",name:"📶 Connectivity",score:92,quick:"Generally strong, but verify by exact address.",stats:[["Broadband subscription","94.0%"],["Households with computer","97.2%"],["Address-level check","Required"]],notes:["Use FCC National Broadband Map for exact address availability."],sources:["https://broadbandmap.fcc.gov/","https://www.census.gov/quickfacts/fact/table/beaufortcountysouthcarolina/SBO040223"]}
+],reality:["Job options can be narrower depending on career field.","Childcare should be verified early.","Heat, humidity, storms, and insurance should be part of the plan.","Safety varies by exact neighborhood."]},
+{id:"mechanicsburg-pa",name:"Mechanicsburg, PA",type:"Suburban / family-oriented",score:84,label:"🌟 Excellent Fit",summary:"Sample community profile used for comparison.",categories:[],reality:["Sample data only."]},
+{id:"winchester-va",name:"Winchester, VA",type:"Small city / commuter-friendly",score:80,label:"🚀 Strong Fit",summary:"Sample community profile used for comparison.",categories:[],reality:["Sample data only."]},
+{id:"lititz-pa",name:"Lititz, PA",type:"Small town / highly family-oriented",score:86,label:"🌟 Excellent Fit",summary:"Sample community profile used for comparison.",categories:[],reality:["Sample data only."]}
+];
+
+const OPPORTUNITIES=[
+{cat:"baseball",icon:"⚾",title:"Youth Baseball",items:[["Beaufort County youth sports","View programs"],["Local recreation leagues","View registration"],["Baseball clinics","View clinics"]]},
+{cat:"childcare",icon:"👶",title:"Childcare",items:[["SC DSS childcare search","View providers"],["Local daycare shortlist","Schedule tours"],["After-school care","View options"]]},
+{cat:"jobs",icon:"💼",title:"Jobs",items:[["Beaufort Memorial careers","View jobs"],["Military spouse employment","View resources"],["Remote work options","View remote jobs"]]},
+{cat:"community",icon:"🤝",title:"Community Groups",items:[["Military family groups","View groups"],["Parent events","View events"],["Volunteer opportunities","View options"]]},
+{cat:"connectivity",icon:"📶",title:"Connectivity",items:[["FCC broadband map","Check address"],["Cell carrier comparison","Compare carriers"]]},
+{cat:"recreation",icon:"🎣",title:"Family Recreation",items:[["Family parks and trails","View places"],["Fishing access points","View map"],["Seasonal family events","View calendar"]]}
+];
+
+const app=document.getElementById("app");
+let state={view:"home",communityId:"beaufort-sc",categoryKey:"safety",needs:[],opportunityCat:"baseball",query:""};
+
+function community(){return COMMUNITIES.find(x=>x.id===state.communityId)||COMMUNITIES[0]}
+function category(){const cm=community();return (cm.categories||[]).find(x=>x.key===state.categoryKey)||(cm.categories||[])[0]}
+function opportunity(){return OPPORTUNITIES.find(x=>x.cat===state.opportunityCat)||OPPORTUNITIES[0]}
+function setView(v){state.view=v;render();window.scrollTo(0,0)}
+function selectCommunity(id){state.communityId=id;state.categoryKey="safety";setView("community")}
+function selectCategory(key){state.categoryKey=key;setView("detail")}
+function selectOpportunity(cat){state.opportunityCat=cat;state.query=cat;setView("opps")}
+function top(back){return `<div class="top">${back?`<button class="back" onclick="setView('${back}')">← Back</button>`:`<strong>🧭 Family Compass</strong>`}<button class="linkbtn" onclick="setView('search')">Search</button></div>`}
+function ring(score){return `<div class="ring" style="--score:${score}"><div><div class="score">${score}</div><div class="smalltext center">/100</div></div></div>`}
+
+function home(){return `${top()}<section class="card hero center"><div class="logo">🧭</div><h1>Family Compass</h1><p>Find your fit. Build your life.</p></section><section class="card"><h2>A search engine for family life.</h2><p>Search communities, safety, schools, childcare, jobs, connectivity, youth sports, and the stuff families usually discover too late.</p></section><button class="button green" onclick="setView('find')">Find places that fit us</button><button class="button" onclick="setView('location')">Search a specific place</button><button class="button secondary" onclick="selectCommunity('beaufort-sc')">View Beaufort real-data profile</button>`}
+
+function find(){const needs=["🛡️ Low crime","🏫 Strong schools","👶 Childcare","💼 Jobs","🇺🇸 Military-friendly","🎣 Outdoors","📶 Internet/cell"];return `${top('home')}<h1>Find places that fit your family</h1><p>Pick what matters. This ranks sample communities for now.</p><div class="card"><input class="input" value="New Jersey" /><div class="chips">${needs.map(n=>`<button class="chip ${state.needs.includes(n)?'active':''}" onclick="toggleNeed('${n}')">${n}</button>`).join("")}</div></div><button class="button green" onclick="setView('results')">Find My Fit</button>`}
+function toggleNeed(n){state.needs.includes(n)?state.needs=state.needs.filter(x=>x!==n):state.needs.push(n);render()}
+
+function results(){const rs=[...COMMUNITIES].sort((a,b)=>b.score-a.score);return `${top('find')}<h1>Best fits found</h1><p>Sample ranking based on your selected needs.</p>${rs.map((x,i)=>`<div class="card"><p class="smalltext">#${i+1} match</p><h3>${x.name}</h3><div class="badge">${x.label}</div><p><strong>${x.score}/100</strong></p><p>${x.summary}</p><button class="button small green" onclick="selectCommunity('${x.id}')">View Community Fit</button></div>`).join("")}`}
+function location(){return `${top('home')}<h1>Search a place</h1><p>Choose a sample community.</p><div class="chips">${COMMUNITIES.map(x=>`<button class="chip" onclick="selectCommunity('${x.id}')">${x.name}</button>`).join("")}</div>`}
+
+function communityScreen(){const x=community();return `${top('location')}<div class="center"><h2>${x.name}</h2><h1>Community Fit Score</h1>${ring(x.score)}<div class="badge">${x.label}</div></div><div class="card"><p><strong>${x.summary}</strong></p></div><div class="card"><h3>Things families should know</h3>${(x.reality||[]).map(r=>`<div class="warn">⚠️ ${r}</div>`).join("")}</div>${(x.categories||[]).length?`<div class="card"><h3>Tap a category</h3>${x.categories.map(k=>`<button class="cardbtn" onclick="selectCategory('${k.key}')"><div class="row"><span>${k.name}</span><span class="status">${k.score}</span></div><p>${k.quick}</p></button>`).join("")}</div><button class="button green" onclick="setView('search')">Search opportunities nearby</button>`:`<div class="card"><p>This is still sample data. Beaufort is the real-data pilot.</p></div>`}`}
+
+function detail(){const k=category();if(!k)return `${top('community')}<div class="card"><p>No category detail yet.</p></div>`;return `${top('community')}<div class="center"><h2>${k.name}</h2>${ring(k.score)}<div class="badge">${k.score>=80?'Strong':k.score>=70?'Good':'Needs planning'}</div></div><div class="card"><h3>Quick take</h3><p><strong>${k.quick}</strong></p></div><div class="card"><h3>What the data says</h3>${k.stats.map(s=>`<div class="row"><span>${s[0]}</span><span class="status">${s[1]}</span></div>`).join("")}</div><div class="card"><h3>Recent / important notes</h3>${k.notes.map(n=>`<div class="warn">• ${n}</div>`).join("")}</div><div class="card"><h3>Sources</h3>${k.sources.map(s=>`<p class="source">${s}</p>`).join("")}</div>`}
+function search(){return `${top('community')}<h1>Search Family Compass</h1><p>Search family-life categories near ${community().name}.</p><input class="input" placeholder="Try: childcare, jobs, baseball, internet" oninput="state.query=this.value"/><button class="button green" onclick="runSearch()">Search</button><div class="chips">${OPPORTUNITIES.map(o=>`<button class="chip" onclick="selectOpportunity('${o.cat}')">${o.icon} ${o.title}</button>`).join("")}</div>`}
+function runSearch(){const q=(state.query||"").toLowerCase();let cat="recreation";if(q.includes("baseball")||q.includes("sport")||q.includes("youth"))cat="baseball";else if(q.includes("child")||q.includes("daycare"))cat="childcare";else if(q.includes("job")||q.includes("work")||q.includes("career"))cat="jobs";else if(q.includes("group")||q.includes("church")||q.includes("community"))cat="community";else if(q.includes("internet")||q.includes("cell")||q.includes("wifi"))cat="connectivity";selectOpportunity(cat)}
+function opps(){const found=opportunity();return `${top('search')}<div class="center"><div class="logo">${found.icon}</div><h1>${found.title}</h1><p>Sample results near ${community().name}. In the live app these buttons open real registration, provider, job, or map links.</p></div>${found.items.map(i=>`<div class="card"><h3>${i[0]}</h3><p class="why">Why we showed this: it matches your family-life search.</p><button class="button small green" onclick="alert('Live version opens: ${i[1]}')">${i[1]}</button></div>`).join("")}`}
+function render(){app.innerHTML=({home,find,results,location,community:communityScreen,detail,search,opps}[state.view]||home)()}
+render();
+</script>
 </body>
 </html>
