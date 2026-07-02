@@ -1,1 +1,0 @@
-Emergency single-file Family Compass build. Upload only index.html to GitHub root to fix white screen caused by missing JS/CSS files.
